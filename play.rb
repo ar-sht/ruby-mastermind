@@ -42,7 +42,7 @@ end
 if  answer.match(player.guess) != [1, 1, 1, 1]
   if hard_mode
     puts "Tough luck. Hopefully you'll get it next time!"
-  else
+  elsif answer.match(player.guess) != [1, 1, 1, 1]
     puts "Wonk Wonk. You couldn't get it right even in 12 turns!\n#{'You suck!'.colorize(:red)}"
   end
 end
