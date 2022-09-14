@@ -4,6 +4,7 @@ require './sequence'
 require 'pry-byebug'
 
 class Answer < Sequence
+  attr_reader :key
   # @param [Sequence] guess
   # @return [Array] matching output like in Mastermind, 0 = white peg, 1 = black peg, -1 = nothing
   def match(guess)
