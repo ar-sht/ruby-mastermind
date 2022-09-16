@@ -1,59 +1,49 @@
 # frozen_string_literal: true
-class Feedback
-  attr_accessor :feedback_hash, :feedback_arr, :code, :guess
 
-  def feedback(code, guess, hard, computer)
+require './guess'
+require 'pry-byebug'
+class Feedback
+  attr_accessor :answer, :guess, :feedback_arr
+
+  def feedback(answer, guess, computer)
+    @answer = answer.map { |val| val }
+    @guess = guess.map { |val| val }
     @feedback_arr = []
-    @feedback_hash = {
-      matches: 0,
-      partials: 0
-    }
-    @code = code
-    @guess = guess
-    eliminate_positions
+    populate_arr
     if computer
-      feedback_hash
-    elsif hard
-      feedback_arr.shuffle
+      num_matches = feedback_arr.count { |value| value == 1 }
+      num_partials = feedback_arr.count { |value| value.zero? }
+      [num_matches, num_partials]
     else
       feedback_arr
     end
   end
 
-  private
-
-  def eliminate_positions
+  def populate_arr
     matches
     partials
   end
 
-  def delete_indexes(indexes, array)
-    array.reject!.with_index { |_value, index| indexes.include? index }
-  end
-
   def matches
-    to_delete = []
-    @code.each_with_index do |_val, index|
-      unless @code[index] == @guess[index]
-        feedback_arr[index] = -1
-        next
+    4.times do |i|
+      # binding.pry
+      if answer[i] == guess[i]
+        feedback_arr.push(1)
+        answer[i] = 7
+        guess[i] = 8
+      else
+        feedback_arr[i] = -1
       end
-
-      feedback_arr[index] = 1
-      feedback_hash[:matches] += 1
-      to_delete << index
     end
-    delete_indexes(to_delete, @code)
-    delete_indexes(to_delete, @guess)
   end
 
   def partials
-    @code.each do |val|
-      next unless @guess.include?(val)
+    4.times do |i|
+      next unless answer.include?(guess[i])
 
-      @code.delete_at(@code.find_index(val))
-      feedback_arr[@guess.find_index(val)] = 0
-      feedback_hash[:partials] += 1
+      feedback_arr[i] = 0
+      answer[answer.find_index(guess[i])] = 7
+      guess[i] = 8
     end
   end
 end

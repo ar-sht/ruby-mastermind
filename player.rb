@@ -1,10 +1,9 @@
-# frozen_string_literal: true
-
-require './feedback'
+require './display'
 class Player
-  attr_reader :name, :guess
+  include Display
+  attr_accessor :name
 
-  def initialize(name)
+  def initialize(name = 'Computer')
     @name = name
   end
 end

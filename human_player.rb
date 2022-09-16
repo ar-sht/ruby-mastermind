@@ -1,42 +1,30 @@
 # frozen_string_literal: true
 require './player'
-
+require './guess'
 class HumanPlayer < Player
-  attr_accessor :name
+  attr_accessor :name, :code, :guess, :score
+
+  def initialize(name)
+    @score = 0
+    super(name)
+  end
+  def make_guess
+    puts 'Please enter your guess:'
+    guess = Guess.new(gets.chomp)
+    until guess.valid?
+      puts 'Invalid Input. Please re-enter your guess:'
+      guess = Guess.new(gets.chomp)
+    end
+    guess.sequence
+  end
 
   def make_code
-    create_code
-  end
-
-  def make_guess
-    create_guess
-  end
-
-  private
-
-  def create_code
-    puts "Ok then, #{name}. Please enter the code you'd like the computer to guess:"
-    code = gets.chomp.split(//).map(&:to_i)
-    until valid_code?(code)
-      puts 'Invalid Input. Please try again:'
-      code = gets.chomp.split(//).map(&:to_i)
+    puts 'Please enter your code:'
+    code = Guess.new(gets.chomp)
+    until code.valid?
+      puts 'Invalid Input. Please re-enter your code:'
+      code = Guess.new(gets.chomp)
     end
-    code
-  end
-
-  def create_guess
-    puts 'Please enter your guess:'
-    puts "#{'=' * 80}"
-    code = gets.chomp.split(//).map(&:to_i)
-    until valid_code?(code)
-      puts 'Invalid Input. Please try again:'
-      puts "#{'=' * 80}\n"
-      code = gets.chomp.split(//).map(&:to_i)
-    end
-    code
-  end
-
-  def valid_code?(code)
-    code.join =~ /^[1-6]{4}$/
+    code.sequence
   end
 end
