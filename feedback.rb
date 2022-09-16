@@ -9,10 +9,11 @@ class Feedback
     @answer = answer.map { |val| val }
     @guess = guess.map { |val| val }
     @feedback_arr = []
+    # binding.pry
     populate_arr
     if computer
       num_matches = feedback_arr.count { |value| value == 1 }
-      num_partials = feedback_arr.count { |value| value.zero? }
+      num_partials = feedback_arr.count(&:zero?)
       [num_matches, num_partials]
     else
       feedback_arr

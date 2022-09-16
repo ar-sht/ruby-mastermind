@@ -9,20 +9,20 @@ class HumanPlayer < Player
     super(name)
   end
   def make_guess
-    puts 'Please enter your guess:'
+    puts 'Please enter your guess:'.colorize(:green)
     guess = Guess.new(gets.chomp)
     until guess.valid?
-      puts 'Invalid Input. Please re-enter your guess:'
+      puts 'Invalid Input. Please re-enter your guess:'.colorize(:green)
       guess = Guess.new(gets.chomp)
     end
     guess.sequence
   end
 
   def make_code
-    puts 'Please enter your code:'
+    puts 'Please enter your code:'.colorize(:green)
     code = Guess.new(gets.chomp)
     until code.valid?
-      puts 'Invalid Input. Please re-enter your code:'
+      puts 'Invalid Input. Please re-enter your code:'.colorize(:green)
       code = Guess.new(gets.chomp)
     end
     code.sequence
